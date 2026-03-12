@@ -314,7 +314,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nombre\": \"Tatooine\",\n  \"clima\": \"arido\",\n  \"terreno\": \"desierto\",\n  \"diametro\": 10465,\n  \"poblacion\": 200000,\n  \"periodo_rotacion\": 23,\n  \"periodo_orbital\": 304,\n  \"gravedad\": \"1 estandar\",\n  \"agua_superficial\": \"1\",\n  \"habitantes\": [\n    {\n      \"nombre\": \"Luke Skywalker\",\n      \"genero\": \"masculino\",\n      \"altura_cm\": 172,\n      \"peso_kg\": 77,\n      \"color_cabello\": \"rubio\",\n      \"color_ojos\": \"azul\",\n      \"anio_nacimiento\": \"19BBY\"\n    },\n    {\n      \"nombre\": \"C-3PO\",\n      \"genero\": \"n/a\",\n      \"altura_cm\": 167,\n      \"peso_kg\": 75,\n      \"color_cabello\": \"n/a\",\n      \"color_ojos\": \"amarillo\",\n      \"anio_nacimiento\": \"112BBY\"\n    }\n  ]\n}",
+              "raw": "{\n  \"nombre\": \"Tatooine\",\n  \"clima\": \"arido\",\n  \"terreno\": \"desierto\",\n  \"diametro\": 10465,\n  \"poblacion\": 200000,\n  \"periodo_rotacion\": 23,\n  \"periodo_orbital\": 304,\n  \"gravedad\": \"1 estandar\",\n  \"agua_superficial\": \"1\",\n  \"habitantes\": [\n    {\n      \"nombre\": \"Luke Skywalker\",\n      \"genero\": \"masculino\",\n      \"altura\": 172,\n      \"masa\": 77,\n      \"color_cabello\": \"rubio\",\n      \"color_ojos\": \"azul\",\n      \"anio_nacimiento\": \"19BBY\"\n    },\n    {\n      \"nombre\": \"C-3PO\",\n      \"genero\": \"desconocido\",\n      \"altura\": 167,\n      \"masa\": 75,\n      \"color_cabello\": \"n/a\",\n      \"color_ojos\": \"amarillo\",\n      \"anio_nacimiento\": \"112BBY\"\n    }\n  ]\n}",
               "options": { "raw": { "language": "json" } }
             },
             "url": {
@@ -435,7 +435,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"planeta_id\": 1,\n  \"nombre\": \"Obi-Wan Kenobi\",\n  \"genero\": \"masculino\",\n  \"altura_cm\": 182,\n  \"peso_kg\": 77,\n  \"color_cabello\": \"castano/gris\",\n  \"color_ojos\": \"azul-gris\",\n  \"anio_nacimiento\": \"57BBY\"\n}",
+              "raw": "{\n  \"planeta_id\": 1,\n  \"especie_id\": 1,\n  \"nombre\": \"Obi-Wan Kenobi\",\n  \"genero\": \"masculino\",\n  \"altura\": 182,\n  \"masa\": 77,\n  \"color_cabello\": \"castano/gris\",\n  \"color_piel\": \"claro\",\n  \"color_ojos\": \"azul-gris\",\n  \"anio_nacimiento\": \"57BBY\"\n}",
               "options": { "raw": { "language": "json" } }
             },
             "url": {
@@ -481,6 +481,131 @@
               "raw": "{{base_url}}/habitantes/1",
               "host": ["{{base_url}}"],
               "path": ["habitantes", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Select options (para selects/autocomplete)",
+      "item": [
+        {
+          "name": "Opciones – Planetas",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": { "raw": "{{base_url}}/select/planetas", "host": ["{{base_url}}"], "path": ["select", "planetas"] }
+          }
+        },
+        {
+          "name": "Opciones – Especies",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": { "raw": "{{base_url}}/select/especies", "host": ["{{base_url}}"], "path": ["select", "especies"] }
+          }
+        },
+        {
+          "name": "Opciones – Habitantes",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": { "raw": "{{base_url}}/select/habitantes", "host": ["{{base_url}}"], "path": ["select", "habitantes"] }
+          }
+        },
+        {
+          "name": "Opciones – Películas",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": { "raw": "{{base_url}}/select/peliculas", "host": ["{{base_url}}"], "path": ["select", "peliculas"] }
+          }
+        },
+        {
+          "name": "Opciones – Naves",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": { "raw": "{{base_url}}/select/naves", "host": ["{{base_url}}"], "path": ["select", "naves"] }
+          }
+        },
+        {
+          "name": "Opciones – Vehículos",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": { "raw": "{{base_url}}/select/vehiculos", "host": ["{{base_url}}"], "path": ["select", "vehiculos"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Locales – Especies (CRUD)",
+      "item": [
+        {
+          "name": "Listar especies",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/especies?page=1&per_page=25",
+              "host": ["{{base_url}}"],
+              "path": ["especies"],
+              "query": [{ "key": "page", "value": "1" }, { "key": "per_page", "value": "25" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Locales – Naves (CRUD)",
+      "item": [
+        {
+          "name": "Listar naves",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/naves?page=1&per_page=25",
+              "host": ["{{base_url}}"],
+              "path": ["naves"],
+              "query": [{ "key": "page", "value": "1" }, { "key": "per_page", "value": "25" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Locales – Películas (CRUD)",
+      "item": [
+        {
+          "name": "Listar películas",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/peliculas?page=1&per_page=25",
+              "host": ["{{base_url}}"],
+              "path": ["peliculas"],
+              "query": [{ "key": "page", "value": "1" }, { "key": "per_page", "value": "25" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Locales – Vehículos (CRUD)",
+      "item": [
+        {
+          "name": "Listar vehículos",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/vehiculos?page=1&per_page=25",
+              "host": ["{{base_url}}"],
+              "path": ["vehiculos"],
+              "query": [{ "key": "page", "value": "1" }, { "key": "per_page", "value": "25" }]
             }
           }
         }
