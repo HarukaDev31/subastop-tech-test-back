@@ -1,0 +1,555 @@
+{
+  "info": {
+    "name": "SWAPI Laravel API",
+    "description": "API REST que integra la Star Wars API (SWAPI) con caché Redis, reintentos y DTOs mapeados al español. Gestiona planetas y habitantes localmente.\n\n## Autenticación\nTodas las rutas requieren el header `X-API-KEY`. Configura la variable `api_key` en el environment.\n\n## Base URL\nLocal: `http://localhost:8000/api`\nDocker: `http://localhost:8000/api`",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000/api",
+      "type": "string",
+      "description": "URL base de la API"
+    },
+    {
+      "key": "api_key",
+      "value": "changeme-local-dev",
+      "type": "string",
+      "description": "Valor de API_KEY en tu .env"
+    }
+  ],
+  "item": [
+    {
+      "name": "SWAPI – Personajes",
+      "item": [
+        {
+          "name": "Listar personajes (paginado)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/swapi/personajes?pagina=1",
+              "host": ["{{base_url}}"],
+              "path": ["swapi", "personajes"],
+              "query": [{ "key": "pagina", "value": "1", "description": "Numero de pagina" }]
+            },
+            "description": "Lista paginada de personajes. Resultado cacheado 1 hora."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"success\": true,\n  \"total\": 82,\n  \"siguiente\": \"https://swapi.py4e.com/api/people/?page=2\",\n  \"anterior\": null,\n  \"datos\": [\n    {\n      \"nombre\": \"Luke Skywalker\",\n      \"altura\": \"172\",\n      \"peso\": \"77\",\n      \"color_cabello\": \"blond\",\n      \"color_piel\": \"fair\",\n      \"color_ojos\": \"blue\",\n      \"anio_nacimiento\": \"19BBY\",\n      \"genero\": \"male\"\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Obtener personaje por ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/swapi/personajes/1",
+              "host": ["{{base_url}}"],
+              "path": ["swapi", "personajes", "1"]
+            },
+            "description": "Obtiene un personaje mapeado al espanol mediante DTO."
+          },
+          "response": [
+            {
+              "name": "200 OK – Luke Skywalker",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"success\": true,\n  \"datos\": {\n    \"nombre\": \"Luke Skywalker\",\n    \"altura\": \"172\",\n    \"peso\": \"77\",\n    \"color_cabello\": \"blond\",\n    \"color_piel\": \"fair\",\n    \"color_ojos\": \"blue\",\n    \"anio_nacimiento\": \"19BBY\",\n    \"genero\": \"male\",\n    \"mundo_natal\": \"https://swapi.py4e.com/api/planets/1/\",\n    \"peliculas\": [],\n    \"especies\": [],\n    \"vehiculos\": [],\n    \"naves\": [],\n    \"creado\": \"2014-12-09T13:50:51.644000Z\",\n    \"editado\": \"2014-12-20T21:17:56.891000Z\",\n    \"url\": \"https://swapi.py4e.com/api/people/1/\"\n  }\n}"
+            },
+            {
+              "name": "404 Not Found",
+              "status": "Not Found",
+              "code": 404,
+              "body": "{\n  \"success\": false,\n  \"message\": \"Recurso no encontrado.\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SWAPI – Planetas",
+      "item": [
+        {
+          "name": "Listar planetas SWAPI (paginado)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/swapi/planetas?pagina=1",
+              "host": ["{{base_url}}"],
+              "path": ["swapi", "planetas"],
+              "query": [{ "key": "pagina", "value": "1" }]
+            }
+          }
+        },
+        {
+          "name": "Obtener planeta SWAPI por ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/swapi/planetas/1",
+              "host": ["{{base_url}}"],
+              "path": ["swapi", "planetas", "1"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK – Tatooine",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"success\": true,\n  \"datos\": {\n    \"nombre\": \"Tatooine\",\n    \"periodo_rotacion\": \"23\",\n    \"periodo_orbital\": \"304\",\n    \"diametro\": \"10465\",\n    \"clima\": \"arid\",\n    \"gravedad\": \"1 standard\",\n    \"terreno\": \"desert\",\n    \"agua_superficial\": \"1\",\n    \"poblacion\": \"200000\",\n    \"residentes\": [],\n    \"peliculas\": [],\n    \"creado\": \"2014-12-09T13:50:49.641000Z\",\n    \"editado\": \"2014-12-20T20:58:18.411000Z\",\n    \"url\": \"https://swapi.py4e.com/api/planets/1/\"\n  }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SWAPI – Naves",
+      "item": [
+        {
+          "name": "Listar naves estelares (paginado)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/swapi/naves?pagina=1",
+              "host": ["{{base_url}}"],
+              "path": ["swapi", "naves"],
+              "query": [{ "key": "pagina", "value": "1" }]
+            }
+          }
+        },
+        {
+          "name": "Obtener nave por ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/swapi/naves/9",
+              "host": ["{{base_url}}"],
+              "path": ["swapi", "naves", "9"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK – Death Star",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"success\": true,\n  \"datos\": {\n    \"nombre\": \"Death Star\",\n    \"modelo\": \"DS-1 Orbital Battle Station\",\n    \"fabricante\": \"Imperial Department of Military Research\",\n    \"costo_creditos\": \"1000000000000\",\n    \"longitud\": \"120000\",\n    \"velocidad_maxima_atmosfera\": \"n/a\",\n    \"tripulacion\": \"342,953\",\n    \"pasajeros\": \"843,342\",\n    \"capacidad_carga\": \"1000000000000\",\n    \"consumibles\": \"3 years\",\n    \"clasificacion_hiperimpulsor\": \"4.0\",\n    \"MGLT\": \"10\",\n    \"clase_nave\": \"Deep Space Mobile Battlestation\"\n  }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SWAPI – Peliculas",
+      "item": [
+        {
+          "name": "Listar todas las peliculas",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/swapi/peliculas",
+              "host": ["{{base_url}}"],
+              "path": ["swapi", "peliculas"]
+            },
+            "description": "SWAPI devuelve todas las peliculas en una sola pagina (sin paginacion)."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"success\": true,\n  \"total\": 6,\n  \"siguiente\": null,\n  \"anterior\": null,\n  \"datos\": [\n    {\n      \"titulo\": \"A New Hope\",\n      \"numero_episodio\": 4,\n      \"director\": \"George Lucas\",\n      \"productor\": \"Gary Kurtz, Rick McCallum\",\n      \"fecha_estreno\": \"1977-05-25\"\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Obtener pelicula por ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/swapi/peliculas/1",
+              "host": ["{{base_url}}"],
+              "path": ["swapi", "peliculas", "1"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK – A New Hope",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"success\": true,\n  \"datos\": {\n    \"titulo\": \"A New Hope\",\n    \"numero_episodio\": 4,\n    \"texto_apertura\": \"It is a period of civil war...\",\n    \"director\": \"George Lucas\",\n    \"productor\": \"Gary Kurtz, Rick McCallum\",\n    \"fecha_estreno\": \"1977-05-25\",\n    \"personajes\": [],\n    \"planetas\": [],\n    \"naves\": [],\n    \"vehiculos\": [],\n    \"especies\": []\n  }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SWAPI – Especies",
+      "item": [
+        {
+          "name": "Listar especies (paginado)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/swapi/especies?pagina=1",
+              "host": ["{{base_url}}"],
+              "path": ["swapi", "especies"],
+              "query": [{ "key": "pagina", "value": "1" }]
+            }
+          }
+        },
+        {
+          "name": "Obtener especie por ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/swapi/especies/1",
+              "host": ["{{base_url}}"],
+              "path": ["swapi", "especies", "1"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK – Human",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"success\": true,\n  \"datos\": {\n    \"nombre\": \"Human\",\n    \"clasificacion\": \"mammal\",\n    \"designacion\": \"sentient\",\n    \"altura_promedio\": \"180\",\n    \"colores_piel\": \"caucasian, black, asian, hispanic\",\n    \"colores_cabello\": \"blonde, brown, black, red\",\n    \"colores_ojos\": \"brown, blue, green, hazel, grey, amber\",\n    \"esperanza_vida\": \"120\",\n    \"mundo_natal\": \"https://swapi.py4e.com/api/planets/9/\",\n    \"idioma\": \"Galactic Basic\",\n    \"personas\": [],\n    \"peliculas\": []\n  }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SWAPI – Vehiculos",
+      "item": [
+        {
+          "name": "Listar vehiculos (paginado)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/swapi/vehiculos?pagina=1",
+              "host": ["{{base_url}}"],
+              "path": ["swapi", "vehiculos"],
+              "query": [{ "key": "pagina", "value": "1" }]
+            }
+          }
+        },
+        {
+          "name": "Obtener vehiculo por ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/swapi/vehiculos/4",
+              "host": ["{{base_url}}"],
+              "path": ["swapi", "vehiculos", "4"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK – Sand Crawler",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"success\": true,\n  \"datos\": {\n    \"nombre\": \"Sand Crawler\",\n    \"modelo\": \"Digger Crawler\",\n    \"fabricante\": \"Corellia Mining Corporation\",\n    \"costo_creditos\": \"150000\",\n    \"longitud\": \"36.8\",\n    \"velocidad_maxima\": \"30\",\n    \"tripulacion\": \"46\",\n    \"pasajeros\": \"30\",\n    \"capacidad_carga\": \"50000\",\n    \"consumibles\": \"2 months\",\n    \"clase_vehiculo\": \"wheeled\",\n    \"pilotos\": [],\n    \"peliculas\": []\n  }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Planetas Locales (CRUD)",
+      "item": [
+        {
+          "name": "Listar planetas locales",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/planetas",
+              "host": ["{{base_url}}"],
+              "path": ["planetas"],
+              "query": [
+                { "key": "nombre", "value": "tat", "description": "Filtro por nombre (LIKE)", "disabled": true },
+                { "key": "clima", "value": "arido", "description": "Filtro por clima (LIKE)", "disabled": true },
+                { "key": "terreno", "value": "desierto", "description": "Filtro por terreno (LIKE)", "disabled": true },
+                { "key": "recientes", "value": "30", "description": "Ultimos N dias", "disabled": true }
+              ]
+            },
+            "description": "Lista planetas con eager loading de habitantes. Soporta filtros por nombre, clima, terreno y recientes (dias)."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"success\": true,\n  \"datos\": [\n    {\n      \"id\": 1,\n      \"nombre\": \"Tatooine\",\n      \"clima\": \"arido\",\n      \"terreno\": \"desierto\",\n      \"diametro\": 10465,\n      \"poblacion\": 200000,\n      \"periodo_rotacion\": 23,\n      \"periodo_orbital\": 304,\n      \"gravedad\": \"1 estandar\",\n      \"agua_superficial\": \"1\",\n      \"creado_en\": \"2025-03-11T00:00:00.000000Z\",\n      \"actualizado_en\": \"2025-03-11T00:00:00.000000Z\",\n      \"habitantes\": [\n        {\n          \"id\": 1,\n          \"nombre\": \"Luke Skywalker\",\n          \"genero\": \"masculino\",\n          \"altura_cm\": 172,\n          \"peso_kg\": 77\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"total\": 1,\n    \"por_pagina\": 15,\n    \"pagina_actual\": 1,\n    \"ultima_pagina\": 1\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Crear planeta con habitantes",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" },
+              { "key": "Content-Type", "value": "application/json", "type": "text" },
+              { "key": "Accept", "value": "application/json", "type": "text" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Tatooine\",\n  \"clima\": \"arido\",\n  \"terreno\": \"desierto\",\n  \"diametro\": 10465,\n  \"poblacion\": 200000,\n  \"periodo_rotacion\": 23,\n  \"periodo_orbital\": 304,\n  \"gravedad\": \"1 estandar\",\n  \"agua_superficial\": \"1\",\n  \"habitantes\": [\n    {\n      \"nombre\": \"Luke Skywalker\",\n      \"genero\": \"masculino\",\n      \"altura_cm\": 172,\n      \"peso_kg\": 77,\n      \"color_cabello\": \"rubio\",\n      \"color_ojos\": \"azul\",\n      \"anio_nacimiento\": \"19BBY\"\n    },\n    {\n      \"nombre\": \"C-3PO\",\n      \"genero\": \"n/a\",\n      \"altura_cm\": 167,\n      \"peso_kg\": 75,\n      \"color_cabello\": \"n/a\",\n      \"color_ojos\": \"amarillo\",\n      \"anio_nacimiento\": \"112BBY\"\n    }\n  ]\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/planetas",
+              "host": ["{{base_url}}"],
+              "path": ["planetas"]
+            },
+            "description": "Crea un planeta con sus habitantes en una sola transaccion. El nombre debe ser unico."
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "body": "{\n  \"success\": true,\n  \"mensaje\": \"Planeta creado exitosamente.\",\n  \"datos\": {\n    \"id\": 1,\n    \"nombre\": \"Tatooine\",\n    \"clima\": \"arido\",\n    \"terreno\": \"desierto\",\n    \"diametro\": 10465,\n    \"poblacion\": 200000,\n    \"habitantes\": [\n      { \"id\": 1, \"nombre\": \"Luke Skywalker\", \"genero\": \"masculino\" },\n      { \"id\": 2, \"nombre\": \"C-3PO\", \"genero\": \"n/a\" }\n    ]\n  }\n}"
+            },
+            {
+              "name": "422 Nombre duplicado",
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "body": "{\n  \"success\": false,\n  \"message\": \"Error de validacion.\",\n  \"errores\": {\n    \"nombre\": [\"El campo nombre ya ha sido tomado.\"]\n  }\n}"
+            },
+            {
+              "name": "422 Nombre requerido",
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "body": "{\n  \"success\": false,\n  \"message\": \"Error de validacion.\",\n  \"errores\": {\n    \"nombre\": [\"El campo nombre es obligatorio.\"]\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Obtener planeta por ID (con habitantes)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/planetas/1",
+              "host": ["{{base_url}}"],
+              "path": ["planetas", "1"]
+            },
+            "description": "Incluye habitantes via eager loading (sin N+1)."
+          }
+        },
+        {
+          "name": "Actualizar planeta",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" },
+              { "key": "Content-Type", "value": "application/json", "type": "text" },
+              { "key": "Accept", "value": "application/json", "type": "text" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clima\": \"templado\",\n  \"poblacion\": 250000,\n  \"agua_superficial\": \"5\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/planetas/1",
+              "host": ["{{base_url}}"],
+              "path": ["planetas", "1"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"success\": true,\n  \"mensaje\": \"Planeta actualizado exitosamente.\",\n  \"datos\": {\n    \"id\": 1,\n    \"nombre\": \"Tatooine\",\n    \"clima\": \"templado\",\n    \"poblacion\": 250000\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Eliminar planeta",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/planetas/1",
+              "host": ["{{base_url}}"],
+              "path": ["planetas", "1"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"success\": true,\n  \"mensaje\": \"Planeta eliminado exitosamente.\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Habitantes",
+      "item": [
+        {
+          "name": "Listar habitantes",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/habitantes",
+              "host": ["{{base_url}}"],
+              "path": ["habitantes"]
+            }
+          }
+        },
+        {
+          "name": "Crear habitante",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" },
+              { "key": "Content-Type", "value": "application/json", "type": "text" },
+              { "key": "Accept", "value": "application/json", "type": "text" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"planeta_id\": 1,\n  \"nombre\": \"Obi-Wan Kenobi\",\n  \"genero\": \"masculino\",\n  \"altura_cm\": 182,\n  \"peso_kg\": 77,\n  \"color_cabello\": \"castano/gris\",\n  \"color_ojos\": \"azul-gris\",\n  \"anio_nacimiento\": \"57BBY\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/habitantes",
+              "host": ["{{base_url}}"],
+              "path": ["habitantes"]
+            },
+            "description": "El planeta_id debe existir en la base de datos local."
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "body": "{\n  \"success\": true,\n  \"mensaje\": \"Habitante creado exitosamente.\",\n  \"datos\": {\n    \"id\": 3,\n    \"nombre\": \"Obi-Wan Kenobi\",\n    \"genero\": \"masculino\",\n    \"altura_cm\": 182,\n    \"peso_kg\": 77,\n    \"planeta\": { \"id\": 1, \"nombre\": \"Tatooine\" }\n  }\n}"
+            },
+            {
+              "name": "422 Planeta no existe",
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "body": "{\n  \"success\": false,\n  \"message\": \"Error de validacion.\",\n  \"errores\": {\n    \"planeta_id\": [\"El planeta seleccionado no existe.\"]\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Obtener habitante por ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/habitantes/1",
+              "host": ["{{base_url}}"],
+              "path": ["habitantes", "1"]
+            }
+          }
+        },
+        {
+          "name": "Eliminar habitante",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/habitantes/1",
+              "host": ["{{base_url}}"],
+              "path": ["habitantes", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Seguridad",
+      "item": [
+        {
+          "name": "Sin API Key – 401",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/swapi/personajes",
+              "host": ["{{base_url}}"],
+              "path": ["swapi", "personajes"]
+            }
+          },
+          "response": [
+            {
+              "name": "401 Unauthorized",
+              "status": "Unauthorized",
+              "code": 401,
+              "body": "{\n  \"success\": false,\n  \"message\": \"API key invalida o ausente.\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API Key incorrecta – 401",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "wrong-key", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/swapi/personajes",
+              "host": ["{{base_url}}"],
+              "path": ["swapi", "personajes"]
+            }
+          },
+          "response": [
+            {
+              "name": "401 Unauthorized",
+              "status": "Unauthorized",
+              "code": 401,
+              "body": "{\n  \"success\": false,\n  \"message\": \"API key invalida o ausente.\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Recurso no encontrado – 404",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-API-KEY", "value": "{{api_key}}", "type": "text" }],
+            "url": {
+              "raw": "{{base_url}}/swapi/personajes/9999",
+              "host": ["{{base_url}}"],
+              "path": ["swapi", "personajes", "9999"]
+            }
+          },
+          "response": [
+            {
+              "name": "404 Not Found",
+              "status": "Not Found",
+              "code": 404,
+              "body": "{\n  \"success\": false,\n  \"message\": \"Recurso no encontrado.\"\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

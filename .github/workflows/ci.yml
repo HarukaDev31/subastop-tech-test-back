@@ -1,0 +1,63 @@
+name: CI – Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: rootsecret
+          MYSQL_DATABASE: swapi_test
+          MYSQL_USER: swapi_user
+          MYSQL_PASSWORD: secret
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, pdo_mysql, redis, zip, gd
+          coverage: none
+
+      - name: Instalar dependencias Composer
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Copiar .env para CI
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Configurar variables de entorno para tests
+        run: |
+          echo "DB_CONNECTION=mysql"       >> .env
+          echo "DB_HOST=127.0.0.1"        >> .env
+          echo "DB_PORT=3306"             >> .env
+          echo "DB_DATABASE=swapi_test"   >> .env
+          echo "DB_USERNAME=swapi_user"   >> .env
+          echo "DB_PASSWORD=secret"       >> .env
+          echo "CACHE_DRIVER=array"       >> .env
+          echo "API_KEY=test-api-key-123" >> .env
+
+      - name: Ejecutar migraciones
+        run: php artisan migrate --force
+
+      - name: Ejecutar tests
+        run: php artisan test --stop-on-failure

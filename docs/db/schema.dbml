@@ -1,0 +1,162 @@
+// DBML schema for subatstopback (local DB)
+// Use with https://dbdiagram.io
+
+Table planetas {
+  id bigint [pk, increment]
+  nombre varchar(100) [unique, not null]
+  clima varchar(100)
+  terreno varchar(100)
+  diametro int
+  poblacion bigint
+  periodo_rotacion int
+  periodo_orbital int
+  gravedad varchar(50)
+  agua_superficial varchar(10)
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table especies {
+  id bigint [pk, increment]
+  nombre varchar(100) [unique, not null]
+  designacion varchar(100)
+  clasificacion varchar(100)
+  altura_promedio varchar(50)
+  colores_piel varchar(200)
+  colores_cabello varchar(200)
+  colores_ojos varchar(200)
+  esperanza_vida varchar(50)
+  idioma varchar(100)
+  planeta_natal_id bigint
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table habitantes {
+  id bigint [pk, increment]
+  planeta_id bigint [not null]
+  especie_id bigint
+  nombre varchar(100) [not null]
+  altura int
+  masa int
+  color_cabello varchar(50)
+  color_piel varchar(50)
+  color_ojos varchar(50)
+  anio_nacimiento varchar(20)
+  genero varchar(30)
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table peliculas {
+  id bigint [pk, increment]
+  titulo varchar(150) [not null]
+  episodio_id int [unique, not null]
+  texto_apertura text
+  director varchar(100) [not null]
+  productor varchar(200)
+  fecha_estreno date
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table naves {
+  id bigint [pk, increment]
+  nombre varchar(100) [not null]
+  modelo varchar(150)
+  fabricante varchar(200)
+  clase_nave varchar(100)
+  longitud decimal(10,2)
+  capacidad_carga bigint
+  costo_creditos varchar(50)
+  velocidad_maxima_atmosfera varchar(50)
+  tripulacion varchar(50)
+  pasajeros varchar(50)
+  consumibles varchar(100)
+  clasificacion_hiperimpulsor varchar(50)
+  mglt varchar(50)
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table vehiculos {
+  id bigint [pk, increment]
+  nombre varchar(100) [not null]
+  costo_creditos varchar(50)
+  modelo varchar(150)
+  fabricante varchar(200)
+  clase_vehiculo varchar(100)
+  longitud decimal(10,2)
+  velocidad_maxima varchar(50)
+  tripulacion varchar(50)
+  pasajeros varchar(50)
+  capacidad_carga varchar(50)
+  consumibles varchar(100)
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table pelicula_planeta {
+  pelicula_id bigint [not null]
+  planeta_id bigint [not null]
+
+  indexes {
+    (pelicula_id, planeta_id) [pk]
+  }
+}
+
+Table nave_pelicula {
+  nave_id bigint [not null]
+  pelicula_id bigint [not null]
+
+  indexes {
+    (nave_id, pelicula_id) [pk]
+  }
+}
+
+Table especie_pelicula {
+  especie_id bigint [not null]
+  pelicula_id bigint [not null]
+
+  indexes {
+    (especie_id, pelicula_id) [pk]
+  }
+}
+
+Table pelicula_vehiculo {
+  pelicula_id bigint [not null]
+  vehiculo_id bigint [not null]
+
+  indexes {
+    (pelicula_id, vehiculo_id) [pk]
+  }
+}
+
+Table habitante_nave {
+  habitante_id bigint [not null]
+  nave_id bigint [not null]
+
+  indexes {
+    (habitante_id, nave_id) [pk]
+  }
+}
+
+Ref: habitantes.planeta_id > planetas.id [delete: cascade]
+Ref: habitantes.especie_id > especies.id [delete: set null]
+Ref: especies.planeta_natal_id > planetas.id [delete: set null]
+
+Ref: pelicula_planeta.pelicula_id > peliculas.id [delete: cascade]
+Ref: pelicula_planeta.planeta_id > planetas.id [delete: cascade]
+
+Ref: nave_pelicula.nave_id > naves.id [delete: cascade]
+Ref: nave_pelicula.pelicula_id > peliculas.id [delete: cascade]
+
+Ref: especie_pelicula.especie_id > especies.id [delete: cascade]
+Ref: especie_pelicula.pelicula_id > peliculas.id [delete: cascade]
+
+Ref: pelicula_vehiculo.pelicula_id > peliculas.id [delete: cascade]
+Ref: pelicula_vehiculo.vehiculo_id > vehiculos.id [delete: cascade]
+
+Ref: habitante_nave.habitante_id > habitantes.id [delete: cascade]
+Ref: habitante_nave.nave_id > naves.id [delete: cascade]
+

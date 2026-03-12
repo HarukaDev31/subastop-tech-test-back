@@ -1,0 +1,1178 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "SWAPI Laravel API",
+        "description": "API REST que integra la Star Wars API (SWAPI) con caché, reintentos y DTOs. Gestiona planetas y habitantes localmente con relaciones Eloquent.",
+        "contact": {
+            "email": "admin@example.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/api",
+            "description": "API v1 – local"
+        }
+    ],
+    "paths": {
+        "/swapi/personajes": {
+            "get": {
+                "tags": [
+                    "SWAPI – Personajes"
+                ],
+                "summary": "Listar personajes de Star Wars (paginado)",
+                "operationId": "fdc5efdf3470fc67da2f46b4005357ec",
+                "parameters": [
+                    {
+                        "name": "pagina",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista paginada de personajes en español"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    },
+                    "502": {
+                        "description": "Error en SWAPI externa"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/swapi/personajes/{id}": {
+            "get": {
+                "tags": [
+                    "SWAPI – Personajes"
+                ],
+                "summary": "Obtener un personaje por ID",
+                "operationId": "a09884a8226f67d0f8602989ff550996",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Personaje mapeado al español con DTO"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    },
+                    "404": {
+                        "description": "Personaje no encontrado en SWAPI"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/swapi/planetas": {
+            "get": {
+                "tags": [
+                    "SWAPI – Planetas"
+                ],
+                "summary": "Listar planetas de Star Wars (paginado)",
+                "operationId": "ce3960f2ffb8b4c28b4dd4cba48c4603",
+                "parameters": [
+                    {
+                        "name": "pagina",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista paginada de planetas en español"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/swapi/planetas/{id}": {
+            "get": {
+                "tags": [
+                    "SWAPI – Planetas"
+                ],
+                "summary": "Obtener un planeta de SWAPI por ID",
+                "operationId": "c62711bca32cea5d5b898a9c9f3a2520",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Planeta mapeado al español"
+                    },
+                    "404": {
+                        "description": "Planeta no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/swapi/naves": {
+            "get": {
+                "tags": [
+                    "SWAPI – Naves"
+                ],
+                "summary": "Listar naves estelares de Star Wars (paginado)",
+                "operationId": "1eae6076b56b78fc4801817b765668e4",
+                "parameters": [
+                    {
+                        "name": "pagina",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista paginada de naves en español"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/swapi/naves/{id}": {
+            "get": {
+                "tags": [
+                    "SWAPI – Naves"
+                ],
+                "summary": "Obtener una nave estelar por ID",
+                "operationId": "368ff08743bae324ea44ef8723e2f6f7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Nave mapeada al español"
+                    },
+                    "404": {
+                        "description": "Nave no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/swapi/peliculas": {
+            "get": {
+                "tags": [
+                    "SWAPI – Películas"
+                ],
+                "summary": "Listar todas las películas de Star Wars",
+                "operationId": "aa8244e53a9d295d33c11704530d226e",
+                "responses": {
+                    "200": {
+                        "description": "Lista de películas en español"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/swapi/peliculas/{id}": {
+            "get": {
+                "tags": [
+                    "SWAPI – Películas"
+                ],
+                "summary": "Obtener una película por ID",
+                "operationId": "825f5d7429264807d8dbd425ea9b6c8d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Película mapeada al español con DTO"
+                    },
+                    "404": {
+                        "description": "Película no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/swapi/especies": {
+            "get": {
+                "tags": [
+                    "SWAPI – Especies"
+                ],
+                "summary": "Listar especies de Star Wars (paginado)",
+                "operationId": "168e553160db6af39337df755fcc7bb6",
+                "parameters": [
+                    {
+                        "name": "pagina",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista paginada de especies en español"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/swapi/especies/{id}": {
+            "get": {
+                "tags": [
+                    "SWAPI – Especies"
+                ],
+                "summary": "Obtener una especie por ID",
+                "operationId": "54cc594cdee5532f309cde583c1362dd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Especie mapeada al español con DTO"
+                    },
+                    "404": {
+                        "description": "Especie no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/swapi/vehiculos": {
+            "get": {
+                "tags": [
+                    "SWAPI – Vehículos"
+                ],
+                "summary": "Listar vehículos de Star Wars (paginado)",
+                "operationId": "eff931b616ea9f01dd13156e9a5219d2",
+                "parameters": [
+                    {
+                        "name": "pagina",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista paginada de vehículos en español"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/swapi/vehiculos/{id}": {
+            "get": {
+                "tags": [
+                    "SWAPI – Vehículos"
+                ],
+                "summary": "Obtener un vehículo por ID",
+                "operationId": "5ec25acaec07aa0dc35522bbcdcc768c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Vehículo mapeado al español con DTO"
+                    },
+                    "404": {
+                        "description": "Vehículo no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/especies": {
+            "get": {
+                "tags": [
+                    "Especies Locales"
+                ],
+                "summary": "Listar especies locales",
+                "operationId": "c9d5bff5c0726e971cc43eac0079aa1e",
+                "responses": {
+                    "200": {
+                        "description": "Lista paginada de especies"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Especies Locales"
+                ],
+                "summary": "Crear una especie local",
+                "operationId": "bd6fbaf39b14cabcf44afc1076f3e036",
+                "responses": {
+                    "201": {
+                        "description": "Especie creada"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/especies/{id}": {
+            "get": {
+                "tags": [
+                    "Especies Locales"
+                ],
+                "summary": "Obtener una especie local con sus habitantes y películas",
+                "operationId": "aa74e8642d6d5d9df333ae2816f249f0",
+                "responses": {
+                    "200": {
+                        "description": "Especie encontrada"
+                    },
+                    "404": {
+                        "description": "Especie no encontrada"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Especies Locales"
+                ],
+                "summary": "Actualizar una especie local",
+                "operationId": "84e3f74de14d0e82ca0c2a2c48031f26",
+                "responses": {
+                    "200": {
+                        "description": "Especie actualizada"
+                    },
+                    "404": {
+                        "description": "Especie no encontrada"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Especies Locales"
+                ],
+                "summary": "Eliminar una especie local",
+                "operationId": "8c029d9557c75b9350bed08f4150873f",
+                "responses": {
+                    "200": {
+                        "description": "Especie eliminada"
+                    },
+                    "404": {
+                        "description": "Especie no encontrada"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/habitantes": {
+            "get": {
+                "tags": [
+                    "Habitantes"
+                ],
+                "summary": "Listar habitantes locales",
+                "operationId": "8bf0df1c9c13337b3d0e5658a8c583f5",
+                "responses": {
+                    "200": {
+                        "description": "Lista paginada de habitantes"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Habitantes"
+                ],
+                "summary": "Crear un habitante local",
+                "operationId": "d084c66f5796fea6c602185de7dd7695",
+                "responses": {
+                    "201": {
+                        "description": "Habitante creado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/habitantes/{id}": {
+            "get": {
+                "tags": [
+                    "Habitantes"
+                ],
+                "summary": "Obtener un habitante local",
+                "operationId": "4abad449009913cbcbeb1c5149eb8671",
+                "responses": {
+                    "200": {
+                        "description": "Habitante encontrado"
+                    },
+                    "404": {
+                        "description": "Habitante no encontrado"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Habitantes"
+                ],
+                "summary": "Actualizar un habitante local",
+                "operationId": "1c002171b30b067c073c0331464a70d4",
+                "responses": {
+                    "200": {
+                        "description": "Habitante actualizado"
+                    },
+                    "404": {
+                        "description": "Habitante no encontrado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Habitantes"
+                ],
+                "summary": "Eliminar un habitante local",
+                "operationId": "d2867cb7a08cedf4df8daf39e55b5774",
+                "responses": {
+                    "200": {
+                        "description": "Habitante eliminado"
+                    },
+                    "404": {
+                        "description": "Habitante no encontrado"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/naves": {
+            "get": {
+                "tags": [
+                    "Naves Locales"
+                ],
+                "summary": "Listar naves locales",
+                "operationId": "285079c05cc9a5f527c565add57f6e29",
+                "responses": {
+                    "200": {
+                        "description": "Lista paginada de naves"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Naves Locales"
+                ],
+                "summary": "Crear una nave local",
+                "operationId": "32521b21119326f7628cd01173833837",
+                "responses": {
+                    "201": {
+                        "description": "Nave creada"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/naves/{id}": {
+            "get": {
+                "tags": [
+                    "Naves Locales"
+                ],
+                "summary": "Obtener una nave local con sus pilotos y películas",
+                "operationId": "e43db787382420fe887e462ea8ef8037",
+                "responses": {
+                    "200": {
+                        "description": "Nave encontrada"
+                    },
+                    "404": {
+                        "description": "Nave no encontrada"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Naves Locales"
+                ],
+                "summary": "Actualizar una nave local",
+                "operationId": "6d5fc361ea552797d5aa3b8523c6b4c6",
+                "responses": {
+                    "200": {
+                        "description": "Nave actualizada"
+                    },
+                    "404": {
+                        "description": "Nave no encontrada"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Naves Locales"
+                ],
+                "summary": "Eliminar una nave local",
+                "operationId": "ad22820f5378053c3e191c55e86bf5a2",
+                "responses": {
+                    "200": {
+                        "description": "Nave eliminada"
+                    },
+                    "404": {
+                        "description": "Nave no encontrada"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/peliculas": {
+            "get": {
+                "tags": [
+                    "Películas Locales"
+                ],
+                "summary": "Listar películas locales",
+                "operationId": "a86b7f4eee1bd33dd8586df9648fce03",
+                "responses": {
+                    "200": {
+                        "description": "Lista paginada de películas"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Películas Locales"
+                ],
+                "summary": "Crear una película local con sus relaciones",
+                "operationId": "8d3d188ef5dd00a58e600a568b32dfc4",
+                "responses": {
+                    "201": {
+                        "description": "Película creada"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/peliculas/{id}": {
+            "get": {
+                "tags": [
+                    "Películas Locales"
+                ],
+                "summary": "Obtener una película local con todas sus relaciones",
+                "operationId": "26d9d19c84d30ae3661dd757e36a8406",
+                "responses": {
+                    "200": {
+                        "description": "Película encontrada"
+                    },
+                    "404": {
+                        "description": "Película no encontrada"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Películas Locales"
+                ],
+                "summary": "Actualizar una película local",
+                "operationId": "d02ab2b8f2f3c77224ec0b739f465df7",
+                "responses": {
+                    "200": {
+                        "description": "Película actualizada"
+                    },
+                    "404": {
+                        "description": "Película no encontrada"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Películas Locales"
+                ],
+                "summary": "Eliminar una película local",
+                "operationId": "4ff38ced432a9d02a0b719f6b14d25ab",
+                "responses": {
+                    "200": {
+                        "description": "Película eliminada"
+                    },
+                    "404": {
+                        "description": "Película no encontrada"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/planetas": {
+            "get": {
+                "tags": [
+                    "Planetas Locales"
+                ],
+                "summary": "Listar planetas locales con filtros",
+                "operationId": "ccbeda733cdde1756273d3563c43aa28",
+                "responses": {
+                    "200": {
+                        "description": "Lista paginada de planetas"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Planetas Locales"
+                ],
+                "summary": "Crear un planeta con sus habitantes",
+                "operationId": "54a10177712cadffb397b9ca14dea71a",
+                "responses": {
+                    "201": {
+                        "description": "Planeta creado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/planetas/{id}": {
+            "get": {
+                "tags": [
+                    "Planetas Locales"
+                ],
+                "summary": "Obtener un planeta local con sus habitantes",
+                "operationId": "7135fa518db4d6e6103cf26e2c046d33",
+                "responses": {
+                    "200": {
+                        "description": "Planeta encontrado"
+                    },
+                    "404": {
+                        "description": "Planeta no encontrado"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Planetas Locales"
+                ],
+                "summary": "Actualizar un planeta local",
+                "operationId": "564274b3132ca6343c243312029359be",
+                "responses": {
+                    "200": {
+                        "description": "Planeta actualizado"
+                    },
+                    "404": {
+                        "description": "Planeta no encontrado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Planetas Locales"
+                ],
+                "summary": "Eliminar un planeta local",
+                "operationId": "8c556472b5de6c482e28c4852638758a",
+                "responses": {
+                    "200": {
+                        "description": "Planeta eliminado"
+                    },
+                    "404": {
+                        "description": "Planeta no encontrado"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/vehiculos": {
+            "get": {
+                "tags": [
+                    "Vehículos Locales"
+                ],
+                "summary": "Listar vehículos locales",
+                "operationId": "1a85819014535f19573bd65a8c722378",
+                "responses": {
+                    "200": {
+                        "description": "Lista paginada de vehículos"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Vehículos Locales"
+                ],
+                "summary": "Crear un vehículo local",
+                "operationId": "88621b78a5ff45d7b1535be6e16bf790",
+                "responses": {
+                    "201": {
+                        "description": "Vehículo creado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/vehiculos/{id}": {
+            "get": {
+                "tags": [
+                    "Vehículos Locales"
+                ],
+                "summary": "Obtener un vehículo local con sus películas",
+                "operationId": "37a7250188d1edeeb922cb99a7a7207e",
+                "responses": {
+                    "200": {
+                        "description": "Vehículo encontrado"
+                    },
+                    "404": {
+                        "description": "Vehículo no encontrado"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Vehículos Locales"
+                ],
+                "summary": "Actualizar un vehículo local",
+                "operationId": "5aa008470413bbbfc4ece5e6f3423419",
+                "responses": {
+                    "200": {
+                        "description": "Vehículo actualizado"
+                    },
+                    "404": {
+                        "description": "Vehículo no encontrado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Vehículos Locales"
+                ],
+                "summary": "Eliminar un vehículo local",
+                "operationId": "4740f86d78cf5d47a0637a8797af3943",
+                "responses": {
+                    "200": {
+                        "description": "Vehículo eliminado"
+                    },
+                    "404": {
+                        "description": "Vehículo no encontrado"
+                    },
+                    "401": {
+                        "description": "API Key inválida"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "description": "API Key requerida. Configura API_KEY en tu .env y envíala como header X-API-KEY.",
+                "name": "X-API-KEY",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "SWAPI – Personajes",
+            "description": "Consulta personajes de Star Wars"
+        },
+        {
+            "name": "SWAPI – Planetas",
+            "description": "Consulta planetas de Star Wars"
+        },
+        {
+            "name": "SWAPI – Naves",
+            "description": "Consulta naves estelares de Star Wars"
+        },
+        {
+            "name": "SWAPI – Películas",
+            "description": "Consulta películas de Star Wars"
+        },
+        {
+            "name": "SWAPI – Especies",
+            "description": "Consulta especies de Star Wars"
+        },
+        {
+            "name": "SWAPI – Vehículos",
+            "description": "Consulta vehículos de Star Wars"
+        },
+        {
+            "name": "Planetas Locales",
+            "description": "CRUD de planetas persistidos en base de datos"
+        },
+        {
+            "name": "Especies Locales",
+            "description": "CRUD de especies persistidas en base de datos"
+        },
+        {
+            "name": "Naves Locales",
+            "description": "CRUD de naves persistidas en base de datos"
+        },
+        {
+            "name": "Películas Locales",
+            "description": "CRUD de películas persistidas en base de datos"
+        },
+        {
+            "name": "Vehículos Locales",
+            "description": "CRUD de vehículos persistidos en base de datos"
+        },
+        {
+            "name": "Habitantes",
+            "description": "Gestión de habitantes asociados a planetas"
+        }
+    ]
+}
